@@ -4,6 +4,13 @@
 
 ## A very fast and simple utility for converting a binary file into a C++ source file.
 
+## Where it can be used
+The resulting file can be used, for example, in **SFML** projects. As is known, SFML provides the function `openFromMemory(const void *data, std::size_t sizeInBytes)` for loading fonts, audio, images,  and other data from memory. However, the SFML library does not provide functions for loading resources into memory, so platform-specific functions must be used (for example, in WinAPI: FindResource, LoadResource, LockResource).
+
+A similar situation exists in other libraries, for example, **wxWidgets**, which has the `wxMemoryInputStream` class for working with data from memory, but likewise does not provide cross-platform methods for loading resources into memory.
+
+**bin2cpp** makes it possible to embed resources into the program’s executable file and load them into memory in a platform-independent way.
+
 ## Usage
 `bin2cpp <binary_file> <output_file> <array_name>`
 
@@ -28,10 +35,4 @@ constexpr uint8_t opensans_font_data[130832] = {
 };
 ```
 
-## Where it can be used
-The resulting file can be used, for example, in **SFML** projects. As is known, SFML provides the function `openFromMemory(const void *data, std::size_t sizeInBytes)` for loading fonts, audio, images,  and other data from memory. However, the SFML library does not provide functions for loading resources into memory, so platform-specific functions must be used (for example, in WinAPI: FindResource, LoadResource, LockResource).
-
-A similar situation exists in other libraries, for example, **wxWidgets**, which has the `wxMemoryInputStream` class for working with data from memory, but likewise does not provide cross-platform methods for loading resources into memory.
-
-**bin2cpp** makes it possible to embed resources into the program’s executable file and load them into memory in a platform-independent way.
 
