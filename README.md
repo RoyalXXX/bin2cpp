@@ -48,6 +48,11 @@ constexpr uint8_t my_font_data[130832] = {
 ```
 
 ## bin2cpp - console
+> [!WARNING]
+> Errors may occur when using **bin2cpp – console**, as it does not validate file names or paths. Additionally, it supports only ASCII characters in names.
+
+**bin2cpp – console** is provided for demonstration purposes only. The source code of **bin2cpp - console** is available for download under the MIT License.
+
 ### Usage
 `bin2cpp <binary_file> <output_file> <array_name>`
 
