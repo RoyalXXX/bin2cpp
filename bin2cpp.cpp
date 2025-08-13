@@ -90,10 +90,5 @@ int main(int argc, char* argv[])
 
     output_file << "\n};\n";
 
-    if (!output_file.flush())
-    {
-        std::cerr << "Error: Incomplete write to the output file.\n";
-        return 1;
-    }
-
 }
+
