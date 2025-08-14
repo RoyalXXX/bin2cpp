@@ -12,7 +12,7 @@ A similar situation exists in other libraries, for example, **wxWidgets**, which
 **bin2cpp** makes it possible to embed resources into the program’s executable file and load them into memory in a platform-independent way.
 
 ## bin2cpp GUI
-![alt text](https://github.com/RoyalXXX/bin2cpp/blob/main/scr.png)
+![alt text](https://github.com/RoyalXXX/bin2cpp/blob/main/_scr.png)
 
 This is the graphical user interface version of **bin2cpp**. It is the recommended way to use bin2cpp.
 
