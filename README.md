@@ -14,7 +14,7 @@ A similar situation exists in other libraries, for example, **wxWidgets**, which
 ## bin2cpp GUI
 ![alt text](https://github.com/RoyalXXX/bin2cpp/blob/main/_scr.png)
 
-This is the graphical user interface version of **bin2cpp**. It is the recommended way to use bin2cpp.
+This is the graphical user interface version of **bin2cpp**. It is the recommended way to use **bin2cpp**.
 
 Compared to the console version, **bin2cpp GUI** offers several advantages:
 
