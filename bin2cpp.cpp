@@ -32,15 +32,41 @@
 #include <string>
 #include <iomanip>
 #include <cstdint>
+#include <thread>
+#include <atomic>
+#include <mutex>
+#include <chrono>
+
+std::atomic<size_t> progress{ 0 };
+std::atomic<bool> done{ false };
+std::mutex cout_mutex;
+
+void progress_monitor(size_t total_size)
+{
+    while (!done)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        size_t current = progress.load();
+        float percentage = (static_cast<float>(current) / total_size) * 100.0f;
+
+        std::lock_guard<std::mutex> lock(cout_mutex);
+        std::cout << "\rProgress: " << std::fixed << std::setprecision(1) << percentage << "%" << std::flush;
+    }
+
+    std::lock_guard<std::mutex> lock(cout_mutex);
+    std::cout << "\rProgress: 100.0%" << std::endl;
+}
 
 int main(int argc, char* argv[])
 {
     if (argc < 4)
     {
-        std::cerr << "Usage: " << argv[0]
-                  << " <binary_file> <output_file> <array_name>\n";
+        std::cerr << "Usage: " << argv[0] << " <binary_file> <output_file> <array_name>\n";
         return 1;
     }
+
+    const auto start_time = std::chrono::high_resolution_clock::now();
 
     std::ifstream input_file(argv[1], std::ios::binary);
     if (!input_file)
@@ -49,7 +75,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-	input_file.seekg(0, std::ios::end);
+    input_file.seekg(0, std::ios::end);
     const size_t file_size = input_file.tellg();
     input_file.seekg(0, std::ios::beg);
 
@@ -72,23 +98,35 @@ int main(int argc, char* argv[])
     const std::string array_name = argv[3];
 
     output_file << "//=================================== AUTOMATICALLY GENERATED FILE ===================================//\n"
-                << "// DO NOT EDIT MANUALLY\n"
-                << "// This file is generated from: " << argv[1] << "\n"
-                << "//====================================================================================================//\n\n"
-                << "#pragma once\n"
-                << "#include <cstdint>\n\n"
-                << "constexpr uint8_t " << array_name << '[' << buf.size() << "] = {";
+        << "// DO NOT EDIT MANUALLY\n"
+        << "// This file is generated from: " << argv[1] << "\n"
+        << "//====================================================================================================//\n\n"
+        << "#pragma once\n"
+        << "#include <cstdint>\n\n"
+        << "constexpr uint8_t " << array_name << '[' << buf.size() << "] = {";
+
+    std::thread progress_thread(progress_monitor, buf.size());
 
     for (std::size_t i{}; i < buf.size(); ++i)
     {
         if (i != 0) output_file << ", ";
-        if (i % 17 == 0) output_file << "\n\t";
+        if (i % 17 == 0) {
+            output_file << "\n\t";
+            progress.store(i);
+        }
         output_file << "0x"
-                    << std::hex << std::setw(2) << std::setfill('0')
-                    << static_cast<unsigned>(buf[i]);
+            << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<unsigned>(buf[i]);
     }
+
+    progress.store(buf.size());
+    done = true;
+    progress_thread.join();
 
     output_file << "\n};\n";
 
-}
+    const auto end_time = std::chrono::high_resolution_clock::now();
+    const auto duration = std::chrono::duration<double>(end_time - start_time).count();
 
+    std::cout << "Elapsed time: " << std::fixed << std::setprecision(3) << duration << " seconds" << std::endl;
+}
