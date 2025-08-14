@@ -16,12 +16,9 @@ A similar situation exists in other libraries, for example, **wxWidgets**, which
 
 This is the graphical user interface version of **bin2cpp**. It is the recommended way to use **bin2cpp**.
 
-Compared to the console version, **bin2cpp GUI** offers several advantages:
-
-- Several times faster than **bin2cpp console**
-- Powered by an upgraded and high-performance algorithm
-- Supports Unicode characters in file paths and names, including valid Unicode identifiers in C++ (names composed of characters with Unicode property XID_Start for the first character and XID_Continue for subsequent characters, in accordance with the C++ standard): https://en.cppreference.com/w/cpp/language/name.html
+### Features
 - Validates names and paths for correctness
+- Supports Unicode characters in file paths and names, including valid Unicode identifiers in C++ (names composed of characters with Unicode property XID_Start for the first character and XID_Continue for subsequent characters, in accordance with the C++ standard): https://en.cppreference.com/w/cpp/language/name.html
 - Displays error messages and conversion time
 
 ### Usage
@@ -55,6 +52,9 @@ constexpr uint8_t my_font_data[130832] = {
 
 The source code of **bin2cpp console** is available for download under the MIT License (the `bin2cpp.cpp` file in the repository).
 
+### Features
+- Shows conversion progress in percentage
+- Shows elapsed time after conversion is complete
 
 ### Usage
 `bin2cpp <binary_file> <output_file> <array_name>`
