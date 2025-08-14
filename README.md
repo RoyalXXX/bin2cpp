@@ -19,7 +19,8 @@ This is the graphical user interface version of **bin2cpp**. It is the recommend
 ### Features
 - Validates names and paths for correctness
 - Supports Unicode characters in file paths and names, including valid Unicode identifiers in C++ (names composed of characters with Unicode property XID_Start for the first character and XID_Continue for subsequent characters, in accordance with the C++ standard): https://en.cppreference.com/w/cpp/language/name.html
-- Displays error messages and conversion time
+- Shows elapsed time after conversion is complete
+- Displays error messages
 
 ### Usage
 
