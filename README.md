@@ -1,6 +1,6 @@
 # bin2cpp
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Static Badge](https://img.shields.io/badge/C%2B%2B-11-blue?)](https://isocpp.org/)
+[![Static Badge](https://img.shields.io/badge/C%2B%2B-17-blue?)](https://isocpp.org/)
 
 ### A very fast and simple utility for converting a binary file into a C++ source file.
 
@@ -47,6 +47,9 @@ inline constexpr uint8_t my_font_data[34860] = {
 	0x0b, 0x85, 0xfd, 0xf4, 0x00, 0x00, 0x10, 0x04, 0x03, 0x81, 0x00, 0x00
 };
 ```
+
+> [!NOTE]
+> This generated file uses `inline constexpr` for the data array, which requires C++17 or later (inline variables were introduced in C++17). This makes it safe to include this header from multiple translation units without violating the One Definition Rule (ODR) — the linker will merge all copies into a single instance. If you need to target C++11 or C++14, remove the `inline` keyword. However, without `inline`, this header must only be included in a single `.cpp` file, otherwise each translation unit that includes it will get its own separate copy of the array, silently bloating the final binary with duplicate data.
 
 ## bin2cpp console
 
